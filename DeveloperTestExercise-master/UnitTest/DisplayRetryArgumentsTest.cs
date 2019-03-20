@@ -13,6 +13,8 @@ namespace UnitTest
         private string[] _incorrectNewArgsForRetry;
         private object _existingValidArgs;
         private string[] _correctNewArgsForRetry;
+        private bool _falseResult;
+        private bool _trueResult;
 
         [TestInitialize]
         public void Initialize()
@@ -20,6 +22,8 @@ namespace UnitTest
             _fileInfoInstance = new FileInformation();
             _fileInfoClass = new PrivateObject(_fileInfoInstance);
             _displayRetriedArgumentsFunction = "DisplayRetryArguments";
+            _falseResult = false;
+            _trueResult = true;
             SetupMock();
         }
 
@@ -56,7 +60,7 @@ namespace UnitTest
             {
                 var args = new[] { _existingValidArgs, incorrectArgs };
                 var result = _fileInfoClass.Invoke(_displayRetriedArgumentsFunction, args);
-                Assert.AreEqual(result, true);
+                Assert.AreEqual(result, _trueResult);
             }
         }
 
@@ -67,7 +71,7 @@ namespace UnitTest
             {
                 var args = new[] { _existingValidArgs, correctArgs };
                 var result = _fileInfoClass.Invoke(_displayRetriedArgumentsFunction, args);
-                Assert.AreEqual(result, false);
+                Assert.AreEqual(result, _falseResult);
             }
         }
     }

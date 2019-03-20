@@ -13,6 +13,8 @@ namespace UnitTest
         private object[] _correctSizeArgs;
         private object[] _correctVersionArgs;
         private object[] _incorrectArgs;
+        private bool _falseResult;
+        private bool _trueResult;
 
         [TestInitialize]
         public void Initialize()
@@ -20,6 +22,8 @@ namespace UnitTest
             _fileInfoInstance = new FileInformation();
             _fileInfoClass = new PrivateObject(_fileInfoInstance);
             _displayErrorMessageFunction = "DisplayErrorMessage";
+            _falseResult = false;
+            _trueResult = true;
             SetupMock();
         }
 
@@ -57,7 +61,7 @@ namespace UnitTest
             foreach (var args in _incorrectArgs)
             {
                 var result = _fileInfoClass.Invoke(_displayErrorMessageFunction, args);
-                Assert.AreEqual(result, true);
+                Assert.AreEqual(result, _trueResult);
             }
         }
         [TestMethod]
@@ -66,7 +70,7 @@ namespace UnitTest
             foreach (var args in _correctSizeArgs)
             {
                 var result = _fileInfoClass.Invoke(_displayErrorMessageFunction, args);
-                Assert.AreEqual(result, false);
+                Assert.AreEqual(result, _falseResult);
             }
         }
         [TestMethod]
@@ -75,7 +79,7 @@ namespace UnitTest
             foreach (var args in _correctVersionArgs)
             {
                 var result = _fileInfoClass.Invoke(_displayErrorMessageFunction, args);
-                Assert.AreEqual(result, false);
+                Assert.AreEqual(result, _falseResult);
             }
         }
     }

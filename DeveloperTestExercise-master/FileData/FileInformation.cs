@@ -14,31 +14,22 @@ namespace FileData
         private const int InvalidIndex = -1;
         private const string RetryCapitalised = "R";
         private const string Retry = "r";
-
-        private readonly List<string> VersionValueList = new List<string>()
+        private bool _loopCondition = true;
+        private static readonly List<string> VersionValueList = new List<string>() {"-v", "--v", "/v", "--version" };
+        private static readonly List<string> SizeValueList = new List<string>()  { "-s", "--s", "/s", "--size" };
+        private readonly FileDetails _fileDetails = new FileDetails();
+        
+        internal void FileInfoProcess(string[] args)
         {
-            "-v", "--v", "/v", "--version"
-        };
-
-        private readonly List<string> SizeValueList = new List<string>()
-        {
-            "-s", "--s", "/s", "--size"
-        };
-
-        public void FileInfoProcess(string[] args)
-        {
-            var loopCondition = true;
-            var obj = new FileDetails();
-
-            while (loopCondition)
+            while (_loopCondition)
             {
                 if (!DisplayErrorMessage(args))
                 {
                     if (VersionValueList.Contains(args[Functionality]))
-                        Console.WriteLine("Version: " + obj.Version(args[FilePath]));
+                        Console.WriteLine("Version: " + _fileDetails.Version(args[FilePath]));
 
                     if (SizeValueList.Contains(args[Functionality]))
-                        Console.WriteLine("File Size: " + obj.Size(args[FilePath]));
+                        Console.WriteLine("File Size: " + _fileDetails.Size(args[FilePath]));
                 }
 
                 Console.WriteLine("\n----------------------\n");
@@ -61,7 +52,7 @@ namespace FileData
                         Console.WriteLine("\n");
                         break;
                     default:
-                        loopCondition = false;
+                        _loopCondition = false;
                         break;
                 }
             }
